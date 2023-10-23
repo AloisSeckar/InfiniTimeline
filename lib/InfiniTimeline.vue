@@ -16,17 +16,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'
-
-export type InfiniTimelineItem = {
-    id: number,
-    date: string,
-    title: string,
-    tooltip?: string
-}
-export interface InfiniTimelineSupplier {
-    total: number,
-    get(startIndex: number, chunkSize: number): InfiniTimelineItem[]
-}
+import type { InfiniTimelineItem, InfiniTimelineSupplier } from './types'
 
 const props = defineProps<{
   chunkSize: number,
