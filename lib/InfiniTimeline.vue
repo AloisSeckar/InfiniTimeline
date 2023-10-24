@@ -21,7 +21,8 @@ import type { InfiniTimelineItem, InfiniTimelineSupplier } from './types'
 const props = defineProps<{
   chunkSize: number,
   dataArray?: InfiniTimelineItem[], 
-  dataSupplier?: InfiniTimelineSupplier
+  dataSupplier?: InfiniTimelineSupplier,
+  logging?: boolean
 }>()
 
 // template ref to HTML container
@@ -49,7 +50,7 @@ useInfiniteScroll(
 )
 
 function getMoreData (start: number, batch: number) {
-  console.log('fired')
+  logIfWanted('loading more data...')
   if (props.dataArray) {
     if (timelineData.value.length < props.dataArray.length) {
       return props.dataArray.slice(start, start + batch)
@@ -62,6 +63,12 @@ function getMoreData (start: number, batch: number) {
     throw new Error("InfiniTimeline error: Either `dataArray` or `dataSupplier` must be provided'")
   }
   return []
+}
+
+function logIfWanted(message: string) {
+  if (props.logging) {
+    console.debug(message)
+  }
 }
 </script>
 
