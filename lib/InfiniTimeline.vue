@@ -56,7 +56,7 @@ function getMoreData (start: number, batch: number) {
       return props.dataArray.slice(start, start + batch)
     }
   } else if (props.dataSupplier) {
-    if (timelineData.value.length < props.dataSupplier.total) {
+    if (timelineData.value.length < props.dataSupplier.getTotal()) {
       return props.dataSupplier.get(start, batch)
     }
   } else {

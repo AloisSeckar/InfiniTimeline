@@ -8,9 +8,10 @@ export type InfiniTimelineItem = {
     // potential "tooltip" text displayed upon mouse hovering over given data entry
     tooltip?: string
 }
+
 export interface InfiniTimelineSupplier {
     // return the maximum number of items that are possible to be fetched
-    total: number,
+    getTotal(): number,
     // fetch a next batch of items
     get(startIndex: number, chunkSize: number): InfiniTimelineItem[]
 }
