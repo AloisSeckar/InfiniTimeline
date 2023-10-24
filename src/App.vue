@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import InfiniTimeline from '../lib/InfiniTimeline.vue'
-import type { InfiniTimelineItem } from '../lib/InfiniTimeline.vue'
+import type { InfiniTimelineItem } from '../lib/main.ts'
 
 const data = [] as InfiniTimelineItem[]
 for (let id = 1; id < 100; id++) {

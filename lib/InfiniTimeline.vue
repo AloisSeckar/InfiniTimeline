@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'
-import type { InfiniTimelineItem, InfiniTimelineSupplier } from './types'
+import type { InfiniTimelineItem, InfiniTimelineSupplier } from './it-types'
 
 const props = defineProps<{
   chunkSize: number,
@@ -72,5 +72,5 @@ function logIfWanted(message: string) {
 }
 </script>
 
-<style scoped src="./style.css">
+<style scoped src="./it-style.css">
 </style>
