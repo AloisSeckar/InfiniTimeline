@@ -8,6 +8,7 @@
     "name": "AloisSeckar",
     "email": "alois.seckar@gmail.com"
   },
+  "license": "MIT",
   "type": "module",
   "files": ["dist/*"],
   "main": "./dist/InfiniTimeline.umd.cjs",
