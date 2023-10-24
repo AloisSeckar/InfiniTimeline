@@ -1,6 +1,6 @@
 <template>
   <div ref="timeline" class="timeline-wrapper">
-    <div v-for="(item, index) in timelineData" :key="item.id" :title="item.tooltip">
+    <div v-for="(item, index) in timelineData" :key="item.id" class="timeline-slot" :title="item.tooltip">
       <div class="timeline-item" :class="index % 2 === 0 ? 'left' : 'right'">
         <div class="timeline-item-title">
           {{ item.date }}
