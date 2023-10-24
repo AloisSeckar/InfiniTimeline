@@ -72,50 +72,5 @@ function logIfWanted(message: string) {
 }
 </script>
 
-<style scoped>
-.timeline-wrapper {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-.timeline-wrapper::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
-}
-.timeline-wrapper {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.timeline-item {
-    min-width: 250px;
-    height: 60px;
-    width: calc(50% - 2px);
-    text-align: center;
-    background-position-y: center;
-    background-repeat: no-repeat;
-    background-size: auto 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.left {
-    margin-left: 0;
-    margin-right: auto;
-    border-right: 4px solid black;
-    background-image: url('/left.svg');
-    background-position-x: right;
-}
-.right {
-    margin-right: 0;
-    margin-left: auto;
-    border-left: 4px solid black;
-    background-image: url('/right.svg');
-    background-position-x: left;
-}
-
-.timeline-item-title {
-  font-weight: bold;
-  font-size: 20px;
-}
+<style scoped src="./style.css">
 </style>
