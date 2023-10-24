@@ -10,6 +10,6 @@ import type { InfiniTimelineItem } from '../lib/main.ts'
 
 const data = [] as InfiniTimelineItem[]
 for (let id = 1; id < 100; id++) {
-  data.push({ id, date: '2023', title: 'First event', tooltip: 'More info about event' })
+  data.push({ id, title: '2023', content: 'First event', tooltip: 'More info about event' })
 }
 </script>

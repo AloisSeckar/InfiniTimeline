@@ -3,10 +3,10 @@
     <div v-for="(item, index) in timelineData" :key="item.id" class="timeline-slot" :title="item.tooltip">
       <div class="timeline-item" :class="index % 2 === 0 ? 'left' : 'right'">
         <div class="timeline-item-title">
-          {{ item.date }}
+          {{ item.title }}
         </div>
         <div class="timeline-item-content">
-          {{ item.title }}
+          {{ item.content }}
         </div>
       </div>
     </div> 
