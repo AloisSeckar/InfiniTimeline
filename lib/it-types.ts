@@ -9,6 +9,8 @@ export type InfiniTimelineItem = {
     tooltip?: string
 }
 export interface InfiniTimelineSupplier {
+    // return the maximum number of items that are possible to be fetched
     total: number,
+    // fetch a next batch of items
     get(startIndex: number, chunkSize: number): InfiniTimelineItem[]
 }
