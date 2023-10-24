@@ -18,12 +18,17 @@ import { onMounted, ref } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'
 import type { InfiniTimelineItem, InfiniTimelineSupplier } from './it-types'
 
-const props = defineProps<{
-  chunkSize: number,
+export interface Props {
+  chunkSize?: number,
   dataArray?: InfiniTimelineItem[], 
   dataSupplier?: InfiniTimelineSupplier,
   logging?: boolean
-}>()
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  chunkSize: 10,
+  logging: false
+})
 
 // template ref to HTML container
 const timeline = ref(null)

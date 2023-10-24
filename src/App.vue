@@ -1,6 +1,6 @@
 <template>
   <div style="width: 80%; margin: 0 auto; height: 250px; border: 1px solid;">
-    <InfiniTimeline :chunk-size="10" :data-supplier="supplier" />
+    <InfiniTimeline :data-supplier="supplier" :logging="true" />
   </div>
 </template>
 
