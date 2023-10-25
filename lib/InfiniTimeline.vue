@@ -22,12 +22,16 @@ export interface Props {
   chunkSize?: number,
   dataArray?: InfiniTimelineItem[], 
   dataSupplier?: InfiniTimelineSupplier,
-  logging?: boolean
+  logging?: boolean,
+  cssBgColor?: string,
+  cssTextColor?: string,
 }
 
 const props = withDefaults(defineProps<Props>(), {
   chunkSize: 10,
-  logging: false
+  logging: false,
+  cssBgColor: 'transparent',
+  cssTextColor: 'black'
 })
 
 // template ref to HTML container
@@ -77,5 +81,15 @@ function logIfWanted(message: string) {
 }
 </script>
 
-<style scoped src="./it-style.css">
+<style scoped src="./it-style.css" />
+<style scoped>
+.timeline-item {
+  --bg-color: v-bind(props.cssBgColor);
+  --text-color: v-bind(props.cssTextColor);
+}
+
+.timeline-item {
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
 </style>

@@ -52,9 +52,11 @@ The component takes following props:
 * `data-supplier` - implementation of `InfiniTimelineSupplier` for "lazy" loading of data entries. Preffer when pre-loading all the instances in memory would hurt the performance.
 * `chunk-size` - the number of entries to be initially loaded into scroll view area and then re-loaded each time as user scrolls down. Defaults to `10`.
 * `logging` - setting to `true` will enable console debug logs to help you troubleshooting. Defaults to `false` and thus no debug logs. **If used, remember to disable again for production!**
+* `css-bg-color` - allows you to customize background color for each data entry. Must be stringified CSS color expression. Defaults to `transparent`.
+* `css-text-color` - allows you to customize text color for each data entry. Must be stringified CSS color expression. Defaults to `black`.
 
 ### CSS customization
-Currently basic CSS styling is built-in. Couple of variants to choose via prop is planned in future versions.
+Currently basic CSS styling (except background and text color) is built-in. Couple of CSS pre-sets to choose from via prop is planned in future versions.
 
 To override default styles manually you can utilize the CSS class structure:
 * The whole component is wrapped with a `timeline-wrapper` div
