@@ -13,12 +13,12 @@
   
 .timeline-item {
   min-width: 250px;
-  height: 60px;
+  height: 64px;
   width: calc(50% - 2px);
   text-align: center;
   background-position-y: center;
   background-repeat: no-repeat;
-  background-size: auto 32px;
+  background-size: auto 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
