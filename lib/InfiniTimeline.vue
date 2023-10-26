@@ -1,10 +1,10 @@
 <template>
   <div ref="timeline" class="timeline-wrapper">
     <div v-for="(item, index) in timelineData" :key="item.id" class="timeline-slot" :title="item.tooltip">
-      <div v-if="index % 2 === 1" class="timeline-padding" />
-      <div v-if="index % 2 === 1" class="timeline-axis" />
-      <div class="timeline-item" :class="index % 2 === 0 ? 'timeline-item-left' : 'timeline-item-right'">
-        <div v-if="index % 2 === 1" class="timeline-pointer" style="margin-left: -8px;">
+      <div v-if="isOdd(index)" class="timeline-padding" />
+      <div v-if="isOdd(index)" class="timeline-axis" />
+      <div class="timeline-item" :class="isEven(index) ? 'timeline-item-left' : 'timeline-item-right'">
+        <div v-if="isOdd(index)" class="timeline-pointer" style="margin-left: -8px;">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 20 20">
             <path d="M17.215 8.68c1.047.568 1.047 2.07 0 2.638l-11.999 6.5a1.5 1.5 0 0 1-2.214-1.32V3.5a1.5 1.5 0 0 1 2.214-1.32l11.999 6.5Z"/>
           </svg>
@@ -17,14 +17,14 @@
             {{ item.content }}
           </div>
         </div>
-        <div v-if="index % 2 === 0" class="timeline-pointer">
+        <div v-if="isEven(index)" class="timeline-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 20 20">
             <path d="M2.786 8.68a1.5 1.5 0 0 0 0 2.638l11.998 6.5A1.5 1.5 0 0 0 17 16.498V3.5a1.5 1.5 0 0 0-2.215-1.32L2.786 8.68Z"/>
           </svg>
         </div>
       </div>
-      <div v-if="index % 2 === 0" class="timeline-axis" />
-      <div v-if="index % 2 === 0" class="timeline-padding" />
+      <div v-if="isEven(index)" class="timeline-axis" />
+      <div v-if="isEven(index)" class="timeline-padding" />
     </div> 
   </div>
 </template>
@@ -95,6 +95,9 @@ function logIfWanted(message: string) {
     console.debug(message)
   }
 }
+
+const isOdd = (i: number) => i % 2 === 1
+const isEven = (i: number) => !isOdd(i)
 </script>
 
 <style scoped src="./it-style.css" />
