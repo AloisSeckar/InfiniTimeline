@@ -10,7 +10,9 @@ A [Vue 3](https://vuejs.org/) component for displaying provided collection of ti
 For questions and bug reports visit project`s [GitHub repository](https://github.com/AloisSeckar/InfiniTimeline).
 
 ## About
-This package will provide you with `<InfiniTimeline />` Vue 3 component. The component takes a [data source](#providing-data) and displays given data elements in two columns along the central top-down axis. It keeps loading more entries from the source as user scrolls down with a mouse until the data source is depleated (or the browser tab crashes).
+This package will provide you with `<InfiniTimeline />` Vue 3 component. The component takes a [data source](#providing-data) and displays given data elements along the central top-down axis. On wider screens the data are displayed in two altering columns, on screens up to `640px` wide columns colapse into one. 
+
+The component keeps loading more entries from the source as user scrolls down with a mouse until the data source is depleated (or the browser tab crashes).
 
 ### Providing data
 Data elements are represented by a following object:

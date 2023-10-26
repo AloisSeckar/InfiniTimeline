@@ -16,7 +16,6 @@
 }
   
 .timeline-item {
-  min-width: 250px;
   height: 64px;
   width: calc(50% - 2px);
   text-align: center;
@@ -55,4 +54,10 @@
 
 .timeline-pointer {
   fill: currentColor;
+}
+
+@media only screen and (max-width: 640px) {
+  .timeline-item {
+    width: calc(100% - 4px);
+  }
 }
