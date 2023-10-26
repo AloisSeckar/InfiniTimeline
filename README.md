@@ -61,5 +61,6 @@ Currently basic CSS styling (except background and text color) is built-in. Coup
 To override default styles manually you can utilize the CSS class structure:
 * The whole component is wrapped with a `timeline-wrapper` div
 * Data element stack vertically and each resides exactly one row wrapped inside `timeline-slot` div
-* Each row contains exactly one `timeline-item` div (50% wide) which is then altering between `left` and `right` class controlling its position on either side of the central axis
+* Each row contains exactly one `timeline-item` div (50% wide) which is then altering between `timeline-item-left` and `timeline-item-right` class controlling its position on either side of the central axis and also (by default) the icons pointing towards the data
 * Each item has a `timeline-item-title` and `timeline-item-content` for displaying the actual data
+* Central axis is represented by `timeline-axis` class which basically just fills the empty space between `timeline-item` and `timeline-separator` which is the empty space on the other side (both divs are little less than 50% wide)

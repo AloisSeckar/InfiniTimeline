@@ -1,7 +1,9 @@
 <template>
   <div ref="timeline" class="timeline-wrapper">
     <div v-for="(item, index) in timelineData" :key="item.id" class="timeline-slot" :title="item.tooltip">
-      <div class="timeline-item" :class="index % 2 === 0 ? 'left' : 'right'">
+      <div v-if="index % 2 === 1" class="timeline-padding" />
+      <div v-if="index % 2 === 1" class="timeline-axis" />
+      <div class="timeline-item" :class="index % 2 === 0 ? 'timeline-item-left' : 'timeline-item-right'">
         <div class="timeline-item-title">
           {{ item.title }}
         </div>
@@ -9,6 +11,8 @@
           {{ item.content }}
         </div>
       </div>
+      <div v-if="index % 2 === 0" class="timeline-axis" />
+      <div v-if="index % 2 === 0" class="timeline-padding" />
     </div> 
   </div>
 </template>
@@ -84,12 +88,11 @@ function logIfWanted(message: string) {
 <style scoped src="./it-style.css" />
 <style scoped>
 .timeline-item {
-  --bg-color: v-bind(props.cssBgColor);
-  --text-color: v-bind(props.cssTextColor);
+  color: v-bind('props.cssTextColor');
+  background-color: v-bind('props.cssBgColor');
 }
 
-.timeline-item {
-  color: var(--text-color);
-  background-color: var(--bg-color);
+.timeline-axis {
+  background-color: v-bind('props.cssTextColor');
 }
 </style>
