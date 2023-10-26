@@ -25,21 +25,13 @@
   background-size: auto 24px;
   display: flex;
   flex-shrink: 0;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-}
-.timeline-item-left {
-  background-image: url('/left.svg');
-  background-position-x: right;
-}
-.timeline-item-right {
-  background-image: url('/right.svg');
-  background-position-x: left;
 }
 
 .timeline-axis {
   width: 100%;
+  z-index: 1;
 }
 
 .timeline-padding {
@@ -47,7 +39,20 @@
   flex-shrink: 0;
 }
 
+.timeline-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 24px);
+  flex-shrink: 0;
+}
+
 .timeline-item-title {
   font-weight: bold;
   font-size: 20px;
+}
+
+.timeline-pointer {
+  fill: currentColor;
 }

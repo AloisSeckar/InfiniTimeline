@@ -4,11 +4,23 @@
       <div v-if="index % 2 === 1" class="timeline-padding" />
       <div v-if="index % 2 === 1" class="timeline-axis" />
       <div class="timeline-item" :class="index % 2 === 0 ? 'timeline-item-left' : 'timeline-item-right'">
-        <div class="timeline-item-title">
-          {{ item.title }}
+        <div v-if="index % 2 === 1" class="timeline-pointer" style="margin-left: -8px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 20 20">
+            <path d="M17.215 8.68c1.047.568 1.047 2.07 0 2.638l-11.999 6.5a1.5 1.5 0 0 1-2.214-1.32V3.5a1.5 1.5 0 0 1 2.214-1.32l11.999 6.5Z"/>
+          </svg>
         </div>
-        <div class="timeline-item-content">
-          {{ item.content }}
+        <div class="timeline-data">
+          <div class="timeline-item-title">
+            {{ item.title }}
+          </div>
+          <div class="timeline-item-content">
+            {{ item.content }}
+          </div>
+        </div>
+        <div v-if="index % 2 === 0" class="timeline-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 20 20">
+            <path d="M2.786 8.68a1.5 1.5 0 0 0 0 2.638l11.998 6.5A1.5 1.5 0 0 0 17 16.498V3.5a1.5 1.5 0 0 0-2.215-1.32L2.786 8.68Z"/>
+          </svg>
         </div>
       </div>
       <div v-if="index % 2 === 0" class="timeline-axis" />
