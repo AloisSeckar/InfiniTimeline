@@ -76,3 +76,9 @@ To override default styles manually you can utilize the CSS class structure:
 * For displaying the actual data each item has a `timeline-item-title` and `timeline-item-content` divs wrapped in `timeline-data` elemenent
 * Central axis is represented by `timeline-axis` class which basically just fills the empty space between `timeline-item` and `timeline-separator` which is the empty space on the other side (both divs are little less than 50% wide)
 * Pointer icons are made width `svg` elements (currenty hardcoded) that are wrapped inside `timeline-pointer` class
+
+### Changelog
+
+* **v0.3.0** (2023-11-18) - allows item titles to be formatted either as `text` or a `date`
+* **v0.2.0** (2023-10-25) - CSS fixes and adjustments
+* **v0.1.0** (2023-10-24) - first text version
