@@ -11,7 +11,7 @@
         </div>
         <div class="timeline-data">
           <div class="timeline-item-title">
-            {{ item.title }}
+            {{ titleAsDateOrText(item) }}
           </div>
           <div class="timeline-item-content">
             {{ item.content }}
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useInfiniteScroll, useWindowSize } from '@vueuse/core'
+import { useDateFormat, useInfiniteScroll, useWindowSize } from '@vueuse/core'
 import type { InfiniTimelineItem, InfiniTimelineSupplier } from './it-types'
 
 export interface Props {
@@ -104,6 +104,17 @@ const isEven = (i: number) => !isOdd(i)
 // when width < 640, only display items in one column
 const { width } = useWindowSize()
 const narrowScreen = computed(() => Math.ceil(width.value) <= 640)
+
+// format title as date if requested with `item.titleFormat = 'date'`
+// otherwise return title as it is ('text')
+function titleAsDateOrText(item: InfiniTimelineItem): string {
+  if (item?.titleFormat === 'date') {
+    const format = item.titleDateFormat || 'YYYY-MM-DD'
+    return useDateFormat(item.title, format).value
+  } else {
+    return item?.title
+  }
+}
 </script>
 
 <style scoped src="./it-style.css" />

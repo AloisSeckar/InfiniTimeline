@@ -10,7 +10,7 @@ import type { InfiniTimelineItem } from '../lib/main.ts'
 
 const data = [] as InfiniTimelineItem[]
 for (let id = 1; id <= 100; id++) {
-  data.push({ id, title: '2023', content: 'Event no.' + id, tooltip: 'More info about event' })
+  data.push({ id, title: new Date().toISOString(), titleFormat: 'date', titleDateFormat: 'DD.MM.YYYY HH:mm:ss', content: 'Event no.' + id, tooltip: 'More info about event' })
 }
 const supplier = {
   getTotal() {
