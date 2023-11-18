@@ -14,7 +14,7 @@ This package will provide you with `<InfiniTimeline />` Vue 3 component. The com
 
 The component keeps loading more entries from the source as user scrolls down with a mouse until the data source is depleated (or the browser tab crashes).
 
-It is possible to select, whether the entry `title` is just a plain text or if the values hold inside `title` represent JS date. This `titleFormat` option defaults to `'text'`. If `'date'` is requested, the output can be adjusted via `titleDateFormat` string. The formatting is made using [`useDateFormat`](https://vueuse.org/shared/useDateFormat/) function from VueUse. The format defaults to `YYYY-MM-DD`. Those settings can be fine-grained for each entry separately (see [Providing data](#Providing data)) or defined component-wide via props (see [Props reference](#Props reference))
+It is possible to select, whether the entry `title` is just a plain text or if the values hold inside `title` represent JS date. This `titleFormat` option defaults to `'text'`. If `'date'` is requested, the output can be adjusted via `titleDateFormat` string. The formatting is made using [`useDateFormat`](https://vueuse.org/shared/useDateFormat/) function from VueUse. The format defaults to `YYYY-MM-DD`. Those settings can be fine-grained for each entry separately (see [Providing data](#providing-data)) or defined component-wide via props (see [Props reference](#props-reference))
 
 ### Providing data
 Data elements are represented by a following object:
