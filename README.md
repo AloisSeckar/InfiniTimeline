@@ -14,7 +14,7 @@ This package will provide you with `<InfiniTimeline />` Vue 3 component. The com
 
 The component keeps loading more entries from the source as user scrolls down with a mouse until the data source is depleated (or the browser tab crashes).
 
-It is possible to select, whether the entry `title` is just a plain text or if the values hold inside `title` represent JS date. This `titleFormat` option defaults to `'text'`. If `'date'` is requested, the output can be adjusted via `titleDateFormat` string. The formatting is made using [`useDateFormat`](https://vueuse.org/shared/useDateFormat/) function from VueUse. The format defaults to `YYYY-MM-DD`.
+It is possible to select, whether the entry `title` is just a plain text or if the values hold inside `title` represent JS date. This `titleFormat` option defaults to `'text'`. If `'date'` is requested, the output can be adjusted via `titleDateFormat` string. The formatting is made using [`useDateFormat`](https://vueuse.org/shared/useDateFormat/) function from VueUse. The format defaults to `YYYY-MM-DD`. Those settings can be fine-grained for each entry separately (see [Providing data](#Providing data)) or defined component-wide via props (see [Props reference](#Props reference))
 
 ### Providing data
 Data elements are represented by a following object:
@@ -63,6 +63,8 @@ The component takes following props:
 * `logging` - setting to `true` will enable console debug logs to help you troubleshooting. Defaults to `false` and thus no debug logs. **If used, remember to disable again for production!**
 * `css-bg-color` - allows you to customize background color for each data entry. Must be stringified CSS color expression. Defaults to `transparent`.
 * `css-text-color` - allows you to customize text color for each data entry. By default this color also applies to central axis and the pointer icons. Must be stringified CSS color expression. Defaults to `black`.
+* `title-format` - allows you pick whether the item's title will be displayed as plain text (`text`) or formatted as date (`date`). Defaults to `text`. Settings from individual items will override this override component-level default.
+* `title-date-format` - allows you to specify the formatting string for item titles represented as `date`. Must be valid string for [`useDateFormat`](https://vueuse.org/shared/useDateFormat/). Defaults to `YYYY-MM-DD`. Settings from individual items will override this component-level default.
 
 ### CSS customization
 Currently basic CSS styling (except background and text color) is built-in. Couple of CSS pre-sets to choose from via prop is planned in future versions.

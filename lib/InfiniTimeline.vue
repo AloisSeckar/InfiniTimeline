@@ -41,13 +41,17 @@ export interface Props {
   logging?: boolean,
   cssBgColor?: string,
   cssTextColor?: string,
+  titleFormat?: string,
+  titleDateFormat?: string,
 }
 
 const props = withDefaults(defineProps<Props>(), {
   chunkSize: 10,
   logging: false,
   cssBgColor: 'transparent',
-  cssTextColor: 'black'
+  cssTextColor: 'black',
+  titleFormat: 'text',
+  titleDateFormat: 'YYYY-MM-DD'
 })
 
 // template ref to HTML container
@@ -105,12 +109,13 @@ const isEven = (i: number) => !isOdd(i)
 const { width } = useWindowSize()
 const narrowScreen = computed(() => Math.ceil(width.value) <= 640)
 
-// format title as date if requested with `item.titleFormat = 'date'`
-// otherwise return title as it is ('text')
+// format title as date if requested, otherwise return title as it is
+// settings from `item` are evaluated first
+// if nothing provided, component props are being used
 function titleAsDateOrText(item: InfiniTimelineItem): string {
-  if (item?.titleFormat === 'date') {
-    const format = item.titleDateFormat || 'YYYY-MM-DD'
-    return useDateFormat(item.title, format).value
+  if (item?.titleFormat === 'date' || props.titleFormat === 'date') {
+    const format = item?.titleDateFormat || props.titleDateFormat
+    return useDateFormat(item?.title, format).value
   } else {
     return item?.title
   }
