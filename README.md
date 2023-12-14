@@ -10,7 +10,7 @@ A [Vue 3](https://vuejs.org/) component for displaying provided collection of ti
 For questions and bug reports visit project`s [GitHub repository](https://github.com/AloisSeckar/InfiniTimeline).
 
 ## About
-This package will provide you with `<InfiniTimeline />` Vue 3 component. The component takes a [data source](#providing-data) and displays given data elements along the central top-down axis. On wider screens the data are displayed in two altering columns, on screens up to `640px` wide columns colapse into one. 
+This package provides a `<InfiniTimeline />` Vue 3 component. The component takes a [data source](#providing-data) and displays given data elements along the central top-down axis. On wider screens the data are displayed in two altering columns, on screens up to `640px` wide columns colapse into one. 
 
 The component keeps loading more entries from the source as user scrolls down with a mouse until the data source is depleated (or the browser tab crashes).
 
@@ -47,6 +47,9 @@ export interface InfiniTimelineSupplier {
   getTotal(): number,
   // fetch a next batch of items
   get(startIndex: number, chunkSize: number): InfiniTimelineItem[]
+  // set to `true`to notifiy timeline about changes
+  // NOTE: supplier must be decalared as Ref<InfiniTimelineSupplier> (check `Dynamic loading` for more info)
+  changes?: boolean
 }
 ```
 This concept of "lazy" requires extra effort, but it may help reducing site traffic as the data are only loaded when really needed and required by the user. 
@@ -55,10 +58,19 @@ Ultimately the choice is yours, but you need to provide one or an error is raise
 
 Regardless the data source only an initial portion of data elements is displayed upon mounting the component. Its size can be adjusted by `chunk-size` prop. Further elements are being loaded and appended as user scrolls down. The browser native scroll is hidden by CSS, because it doesn't look good, but the component is scrollable with mousewheel or arrow keys when focused.
 
+#### Dynamic loading
+It is possible to benefit from Vue 3 reactivity system and dynamically re-load the timeline whenever items are added/modified/removed.
+
+For `data-array` the only thing you have to do, is to declare the array in parent as a `ref` or `reactive` object. Otherwise the `watcher` inside timeline component won't be able to detect changes.
+
+For `data-supplier` you also need to declare it as a `ref`/`reactive`, but in addition to that, you also have to manually trigger `changes` option to `true`. This will be detected by a dedicated `watcher`.
+
+If the change in provided data is detected (automatically for `data-array` or when `data-supplier`'s `changes` is manually set to `true`), the timeline resets - the initial batch of data will be (re)loaded and the div auto-scrolls to top. The watcher for `data-supplier` also reverts `changes` back to `false`.
+
 ### Props reference
 The component takes following props:
-* `data-array` - pre-rendered array of `InfiniTimelineItem`. Use when the number of data entries is reasonably small.
-* `data-supplier` - implementation of `InfiniTimelineSupplier` for "lazy" loading of data entries. Preffer when pre-loading all the instances in memory would hurt the performance.
+* `data-array` - pre-rendered array of `InfiniTimelineItem`. Use when the number of data entries is reasonably small. If declared as `Ref<InfiniTimelineItem[]>` in parent, reactive changes will be possible out of the box.
+* `data-supplier` - implementation of `InfiniTimelineSupplier` for "lazy" loading of data entries. Preffer when pre-loading all the instances in memory would hurt the performance. If declared as `Ref<InfiniTimelineSupplier[]>` in parent, reactive changes will be possible. You have to set `.changes = true` to notify the timeline component.
 * `chunk-size` - the number of entries to be initially loaded into scroll view area and then re-loaded each time as user scrolls down. Defaults to `10`.
 * `logging` - setting to `true` will enable console debug logs to help you troubleshooting. Defaults to `false` and thus no debug logs. **If used, remember to disable again for production!**
 * `css-bg-color` - allows you to customize background color for each data entry. Must be stringified CSS color expression. Defaults to `transparent`.
