@@ -30,9 +30,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useDateFormat, useInfiniteScroll, useWindowSize } from '@vueuse/core'
 import type { InfiniTimelineItem, InfiniTimelineSupplier } from './it-types'
+import { time } from 'console';
 
 export interface Props {
   chunkSize?: number,
@@ -129,6 +130,15 @@ function titleAsDateOrText(item: InfiniTimelineItem): string {
     return item?.title
   }
 }
+
+// reset view upon changes in provided data array
+watch(() => props.dataArray, () => {
+  logIfWanted('provided dataArray changed - reseting timeline')
+  timelineData.value.length = 0
+  timelineData.value.push(...getMoreData(0, props.chunkSize))
+  const timelineDiv = timeline.value! as HTMLElement
+  timelineDiv.scroll({ top:0 })
+}, { deep: true })
 </script>
 
 <style scoped src="./it-style.css" />
