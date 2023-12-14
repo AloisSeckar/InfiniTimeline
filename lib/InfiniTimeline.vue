@@ -60,6 +60,9 @@ const timeline = ref(null)
 // data array
 const timelineData = ref([] as InfiniTimelineItem[])
 
+// indicator that all provided data were displayed
+const moreData = ref(true)
+
 // reset + load initial batch of data
 onMounted(() => {
   timelineData.value = []
@@ -74,7 +77,8 @@ useInfiniteScroll(
   },
   {
     distance: props.chunkSize,
-    throttle: 100
+    throttle: 100,
+    canLoadMore: (timeline) => checkForMoreData()
   }
 )
 
@@ -92,6 +96,15 @@ function getMoreData (start: number, batch: number) {
     throw new Error("InfiniTimeline error: Either `dataArray` or `dataSupplier` must be provided'")
   }
   return []
+}
+
+function checkForMoreData () {
+  if (props.dataArray && timelineData.value.length < props.dataArray.length) {
+    return true
+  } else if (props.dataSupplier && timelineData.value.length < props.dataSupplier.getTotal()) {
+    return true
+  }
+  return false
 }
 
 // only log messages when requested via a prop
