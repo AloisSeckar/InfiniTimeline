@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { useDateFormat, useInfiniteScroll, useWindowSize } from '@vueuse/core'
 import type { InfiniTimelineItem, InfiniTimelineSupplier } from './it-types'
 
@@ -60,8 +60,12 @@ const timeline = ref(null)
 // data array
 const timelineData = ref([] as InfiniTimelineItem[])
 
-// indicator that all provided data were displayed
-const moreData = ref(true)
+// prerequisities check
+onBeforeMount(() => {
+  if (!props.dataArray && !props.dataSupplier) {
+    throw new Error("InfiniTimeline error: Either `dataArray` or `dataSupplier` must be provided'")
+  } 
+})
 
 // reset + load initial batch of data
 onMounted(() => {
@@ -78,33 +82,25 @@ useInfiniteScroll(
   {
     distance: props.chunkSize,
     throttle: 100,
-    canLoadMore: (timeline) => checkForMoreData()
+    canLoadMore: (timeline) => moreDataAvailableInDataArray() || moreDataAvailableInDataSupplier()
   }
 )
 
 function getMoreData (start: number, batch: number) {
   logIfWanted('loading more data...')
-  if (props.dataArray) {
-    if (timelineData.value.length < props.dataArray.length) {
-      return props.dataArray.slice(start, start + batch)
-    }
-  } else if (props.dataSupplier) {
-    if (timelineData.value.length < props.dataSupplier.getTotal()) {
-      return props.dataSupplier.get(start, batch)
-    }
-  } else {
-    throw new Error("InfiniTimeline error: Either `dataArray` or `dataSupplier` must be provided'")
+  if (moreDataAvailableInDataArray()) {
+    return props.dataArray!.slice(start, start + batch)
+  } else if (moreDataAvailableInDataSupplier()) {
+    return props.dataSupplier!.get(start, batch)
   }
   return []
 }
 
-function checkForMoreData () {
-  if (props.dataArray && timelineData.value.length < props.dataArray.length) {
-    return true
-  } else if (props.dataSupplier && timelineData.value.length < props.dataSupplier.getTotal()) {
-    return true
-  }
-  return false
+function moreDataAvailableInDataArray() {
+  return !!props.dataArray && timelineData.value.length < props.dataArray.length
+}
+function moreDataAvailableInDataSupplier() {
+  return !!props.dataSupplier && timelineData.value.length < props.dataSupplier.getTotal()
 }
 
 // only log messages when requested via a prop
