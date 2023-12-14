@@ -1,12 +1,10 @@
 <template>
   <div>
     <h1>Infinitimeline test</h1>
-    <!--
     <h2>Timeline with data array <button @click="addToArray">Add item</button></h2>
     <div style="width: 80%; margin: 0 auto; height: 230px; border: 1px solid;">
       <InfiniTimeline :data-array="data" :logging="true" css-text-color="red" title-format="text"/>
     </div>
-    -->
     <h2>Timeline with supplier <button @click="addToSupplier">Add item</button></h2>
     <div style="width: 80%; margin: 0 auto; height: 230px; border: 1px solid;">
       <InfiniTimeline :data-supplier="supplier" :logging="true" css-text-color="blue" title-format="date"/>
@@ -29,8 +27,7 @@ const supplier: Ref<InfiniTimelineSupplier> = ref({
   },
   get(startIndex: number, chunkSize: number) {
     return data.value.slice(startIndex, startIndex + chunkSize)
-  },
-  changes: false
+  }
 })
 
 function addToArray() {

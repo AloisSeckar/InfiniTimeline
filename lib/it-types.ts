@@ -22,5 +22,5 @@ export interface InfiniTimelineSupplier {
     // set to `true` if you changed the data and want to reload-them dynamically
     // internal watcher is monitoring this value and will trigger a reset
     // NOTE: dataSupplier has to be declared reactive otherwise watcher will not trigger!
-    changes: boolean
+    changes?: boolean
 }
