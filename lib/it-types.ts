@@ -18,5 +18,9 @@ export interface InfiniTimelineSupplier {
     // return the maximum number of items that are possible to be fetched
     getTotal(): number,
     // fetch a next batch of items
-    get(startIndex: number, chunkSize: number): InfiniTimelineItem[]
+    get(startIndex: number, chunkSize: number): InfiniTimelineItem[],
+    // set to `true` if you changed the data and want to reload-them dynamically
+    // internal watcher is monitoring this value and will trigger a reset
+    // NOTE: dataSupplier has to be declared reactive otherwise watcher will not trigger!
+    changes: boolean
 }

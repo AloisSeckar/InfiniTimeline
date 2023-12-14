@@ -68,10 +68,9 @@ onBeforeMount(() => {
   } 
 })
 
-// reset + load initial batch of data
+// init
 onMounted(() => {
-  timelineData.value = []
-  getMoreData(0, props.chunkSize)
+  resetTimeline()
 })
 
 // define VueUse infinite scroll
@@ -132,13 +131,31 @@ function titleAsDateOrText(item: InfiniTimelineItem): string {
 }
 
 // reset view upon changes in provided data array
+// NOTE: dataArray has to be declared reactive in parent!
 watch(() => props.dataArray, () => {
   logIfWanted('provided dataArray changed - reseting timeline')
+  resetTimeline()
+}, { deep: true })
+
+// reset view upon changes in provided data supplier
+// `changes` must be toggled manually
+// NOTE: dataSupplier has to be declared reactive in parent!
+watch(() => props.dataSupplier?.changes, (newValue) => {
+  if (newValue) {
+    logIfWanted('provided dataSupplier changed - reseting timeline')
+    resetTimeline()
+    props.dataSupplier!.changes = false
+  }
+})
+
+// function to reset + load initial batch of data
+// also reset scrolling to top
+function resetTimeline() {
   timelineData.value.length = 0
   timelineData.value.push(...getMoreData(0, props.chunkSize))
   const timelineDiv = timeline.value! as HTMLElement
   timelineDiv.scroll({ top:0 })
-}, { deep: true })
+}
 </script>
 
 <style scoped src="./it-style.css" />
