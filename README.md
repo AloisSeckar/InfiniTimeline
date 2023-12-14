@@ -91,6 +91,7 @@ To override default styles manually you can utilize the CSS class structure:
 
 ### Changelog
 
+* **v0.4.0** (2023-12-14) - add reactivity + prevent infinite reloading loop
 * **v0.3.0** (2023-11-18) - allows item titles to be formatted either as `text` or a `date`
 * **v0.2.0** (2023-10-25) - CSS fixes and adjustments
 * **v0.1.0** (2023-10-24) - first text version
