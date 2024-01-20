@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "infinitimeline",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "desctiption": "A Vue 3 component for displaying provided collection of time-based events as a timeline with 'infinite' scrolling down",
   "keywords": [
     "vue3",
@@ -25,14 +25,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.5"
+    "vue": "^3.4.15"
   },
   "devDependencies": {
-    "@types/node": "^20.10.6",
-    "@vitejs/plugin-vue": "^5.0.2",
-    "@vueuse/core": "^10.7.1",
+    "@types/node": "^20.11.5",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "@vueuse/core": "^10.7.2",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11",
+    "vite": "^5.0.12",
     "vite-plugin-lib-inject-css": "^1.3.0",
     "vue-tsc": "^1.8.27"
   }
