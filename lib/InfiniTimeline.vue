@@ -1,9 +1,9 @@
 <template>
   <div ref="timeline" class="timeline-wrapper">
-    <div v-for="(item, index) in timelineData" :key="item.id" class="timeline-slot" :title="item.tooltip">
+    <div v-for="(item, index) in timelineData" :key="item.id" class="timeline-slot">
       <div v-if="isOdd(index) && !narrowScreen" class="timeline-padding" />
       <div v-if="isOdd(index) || narrowScreen" class="timeline-axis" />
-      <div class="timeline-item" :class="isOdd(index) || narrowScreen ? 'timeline-item-right' : 'timeline-item-left'">
+      <div class="timeline-item" :class="isOdd(index) || narrowScreen ? 'timeline-item-right' : 'timeline-item-left'" :title="item.tooltip">
         <div v-if="isOdd(index) || narrowScreen" class="timeline-pointer" style="margin-left: -8px;">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 20 20">
             <path d="M17.215 8.68c1.047.568 1.047 2.07 0 2.638l-11.999 6.5a1.5 1.5 0 0 1-2.214-1.32V3.5a1.5 1.5 0 0 1 2.214-1.32l11.999 6.5Z"/>
