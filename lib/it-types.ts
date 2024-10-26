@@ -12,6 +12,8 @@ export type InfiniTimelineItem = {
     content: string,
     // potential "tooltip" text displayed upon mouse hovering over given data entry
     tooltip?: string
+    // potential image source to be displayed next to each item
+    imageSrc?: string
 }
 
 export interface InfiniTimelineSupplier {

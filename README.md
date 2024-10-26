@@ -10,7 +10,7 @@ A [Vue 3](https://vuejs.org/) component for displaying provided collection of ti
 For questions and bug reports visit project`s [GitHub repository](https://github.com/AloisSeckar/InfiniTimeline).
 
 ## About
-This package provides a `<InfiniTimeline />` Vue 3 component. The component takes a [data source](#providing-data) and displays given data elements along the central top-down axis. On wider screens the data are displayed in two altering columns, on screens up to `640px` wide columns colapse into one. 
+This package provides a `<InfiniTimeline />` Vue 3 component. The component takes a [data source](#providing-data) and displays given data elements along the central top-down axis. On wider screens the data are displayed in two altering columns, on narrow screens columns colapse into one. 
 
 The component keeps loading more entries from the source as user scrolls down with a mouse until the data source is depleated (or the browser tab crashes).
 
@@ -33,6 +33,8 @@ type InfiniTimelineItem = {
   content: string,
   // potential "tooltip" text displayed upon mouse hovering over given data entry
   tooltip?: string
+  // potential image source to be displayed next to each item
+  imageSrc?: string
 }
 ```
 
@@ -72,6 +74,8 @@ The component takes following props:
 * `data-array` - pre-rendered array of `InfiniTimelineItem`. Use when the number of data entries is reasonably small. If declared as `Ref<InfiniTimelineItem[]>` in parent, reactive changes will be possible out of the box.
 * `data-supplier` - implementation of `InfiniTimelineSupplier` for "lazy" loading of data entries. Preffer when pre-loading all the instances in memory would hurt the performance. If declared as `Ref<InfiniTimelineSupplier[]>` in parent, reactive changes will be possible. You have to set `.changes = true` to notify the timeline component.
 * `chunk-size` - the number of entries to be initially loaded into scroll view area and then re-loaded each time as user scrolls down. Defaults to `10`.
+* `images` - setting to `true` will enable displaying small thumbnails next to each item. Defaults to `false`.
+* `blank-image` - path to placeholder image that will be displayed if `images = true` and no `imageSrc` provided for current item. If no value provided (default), no image will be displayed.
 * `logging` - setting to `true` will enable console debug logs to help you troubleshooting. Defaults to `false` and thus no debug logs. **If used, remember to disable again for production!**
 * `css-bg-color` - allows you to customize background color for each data entry. Must be stringified CSS color expression. Defaults to `transparent`.
 * `css-text-color` - allows you to customize text color for each data entry. By default this color also applies to central axis and the pointer icons. Must be stringified CSS color expression. Defaults to `black`.
@@ -84,13 +88,16 @@ Currently basic CSS styling (except background and text color) is built-in. Coup
 To override default styles manually you can utilize the CSS class structure:
 * The whole component is wrapped with a `timeline-wrapper` div
 * Data element stack vertically and each resides exactly one row wrapped inside `timeline-slot` div
-* Each row contains exactly one `timeline-item` div (50% wide) which is then altering between `timeline-item-left` and `timeline-item-right` class controlling its position on either side of the central axis
-* For displaying the actual data each item has a `timeline-item-title` and `timeline-item-content` divs wrapped in `timeline-data` elemenent
+* Each row contains exactly one `timeline-item` div which is then altering between `timeline-item-left` and `timeline-item-right` class controlling its position on either side of the central axis
+* For displaying the actual data each item has a `timeline-data` div elemenent
+  * there may be `timeline-image` either before or after the main content, if images are set to be displayed
+  * `timeline-content` holds the actual content consisting of `timeline-content-title` and `timeline-content-text`
 * Central axis is represented by `timeline-axis` class which basically just fills the empty space between `timeline-item` and `timeline-separator` which is the empty space on the other side (both divs are little less than 50% wide)
 * Pointer icons are made width `svg` elements (currenty hardcoded) that are wrapped inside `timeline-pointer` class
 
 ### Changelog
 
+* **v0.5.0** (2024-10-??) - timeline item may display a thumbnail
 * **v0.4.0** (2023-12-14) - add reactivity + prevent infinite reloading loop
 * **v0.3.0** (2023-11-18) - allows item titles to be formatted either as `text` or a `date`
 * **v0.2.0** (2023-10-25) - CSS fixes and adjustments

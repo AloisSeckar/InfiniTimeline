@@ -40,14 +40,29 @@
 
 .timeline-data {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  gap: 20px;
   align-items: center;
   width: calc(100% - 24px);
   flex-shrink: 0;
 }
 
-.timeline-item-title {
+.timeline-image {
+  border: 1px solid black;
+  width: 48px;
+  height: 48px;
+  margin: 4px;
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeline-content-title {
   font-weight: bold;
   font-size: 20px;
 }
@@ -57,7 +72,13 @@
 }
 
 @media only screen and (max-width: 640px) {
-  .timeline-item {
+  .timeline-item-blank {
+    width: calc(100% - 4px);
+  }
+}
+
+@media only screen and (max-width: 691px) {
+  .timeline-item-image {
     width: calc(100% - 4px);
   }
 }

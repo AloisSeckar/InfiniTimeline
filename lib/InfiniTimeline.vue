@@ -3,19 +3,23 @@
     <div v-for="(item, index) in timelineData" :key="item.id" class="timeline-slot">
       <div v-if="isOdd(index) && !narrowScreen" class="timeline-padding" />
       <div v-if="isOdd(index) || narrowScreen" class="timeline-axis" />
-      <div class="timeline-item" :class="isOdd(index) || narrowScreen ? 'timeline-item-right' : 'timeline-item-left'" :title="item.tooltip">
+      <div class="timeline-item" :class="getCSS(index)" :title="item.tooltip">
         <div v-if="isOdd(index) || narrowScreen" class="timeline-pointer" style="margin-left: -8px;">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 20 20">
             <path d="M17.215 8.68c1.047.568 1.047 2.07 0 2.638l-11.999 6.5a1.5 1.5 0 0 1-2.214-1.32V3.5a1.5 1.5 0 0 1 2.214-1.32l11.999 6.5Z"/>
           </svg>
         </div>
         <div class="timeline-data">
-          <div class="timeline-item-title">
-            {{ titleAsDateOrText(item) }}
+          <img v-if="images && displayImage(item) && isEven(index)" class="timeline-image" :src="getImageSrc(item)" />
+          <div class="timeline-content">
+            <div class="timeline-content-title">
+              {{ titleAsDateOrText(item) }}
+            </div>
+            <div class="timeline-content-text">
+              {{ item.content }}
+            </div>
           </div>
-          <div class="timeline-item-content">
-            {{ item.content }}
-          </div>
+          <img v-if="images && displayImage(item) && isOdd(index)" class="timeline-image" :src="getImageSrc(item)" />
         </div>
         <div v-if="isEven(index) && !narrowScreen" class="timeline-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 20 20">
@@ -39,6 +43,8 @@ export interface Props {
   chunkSize?: number,
   dataArray?: InfiniTimelineItem[], 
   dataSupplier?: InfiniTimelineSupplier,
+  images?: boolean,
+  blankImage?: string,
   logging?: boolean,
   cssBgColor?: string,
   cssTextColor?: string,
@@ -48,6 +54,7 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   chunkSize: 10,
+  images: false,
   logging: false,
   cssBgColor: 'transparent',
   cssTextColor: 'black',
@@ -115,8 +122,10 @@ const isOdd = (i: number) => i % 2 === 1
 const isEven = (i: number) => !isOdd(i)
 
 // when width < 640, only display items in one column
+// +50 if images are used
+const treshold = props.images ? 690 : 640;
 const { width } = useWindowSize()
-const narrowScreen = computed(() => Math.ceil(width.value) <= 640)
+const narrowScreen = computed(() => Math.ceil(width.value) <= treshold)
 
 // format title as date if requested, otherwise return title as it is
 // settings from `item` are evaluated first
@@ -128,6 +137,33 @@ function titleAsDateOrText(item: InfiniTimelineItem): string {
   } else {
     return item?.title
   }
+}
+
+// returns image source from given item or default
+function getImageSrc(item: InfiniTimelineItem): string {
+  return item?.imageSrc ? item?.imageSrc : props.blankImage
+}
+
+function displayImage(item) {
+  return !!getImageSrc(item)
+}
+
+function getCSS(index) {
+  let cssClasses = ''
+
+  if (isOdd(index) || narrowScreen) {
+    cssClasses = 'timeline-item-right'
+  } else {
+    cssClasses = 'timeline-item-left'
+  }
+
+  if (props.images) {
+    cssClasses += ' timeline-item-image'
+  } else {
+    cssClasses += ' timeline-item-blank'
+  }
+  
+  return cssClasses
 }
 
 // reset view upon changes in provided data array
