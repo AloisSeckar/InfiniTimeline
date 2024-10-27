@@ -37,7 +37,6 @@
 import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useDateFormat, useInfiniteScroll, useWindowSize } from '@vueuse/core'
 import type { InfiniTimelineItem, InfiniTimelineSupplier } from './it-types'
-import { time } from 'console';
 
 export interface Props {
   chunkSize?: number,
@@ -140,15 +139,15 @@ function titleAsDateOrText(item: InfiniTimelineItem): string {
 }
 
 // returns image source from given item or default
-function getImageSrc(item: InfiniTimelineItem): string {
+function getImageSrc(item: InfiniTimelineItem): string | undefined {
   return item?.imageSrc ? item?.imageSrc : props.blankImage
 }
 
-function displayImage(item) {
+function displayImage(item: InfiniTimelineItem): boolean {
   return !!getImageSrc(item)
 }
 
-function getCSS(index) {
+function getCSS(index: number): string {
   let cssClasses = ''
 
   if (isOdd(index) || narrowScreen) {
