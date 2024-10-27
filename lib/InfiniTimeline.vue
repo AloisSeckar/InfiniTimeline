@@ -38,6 +38,10 @@ import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { useDateFormat, useInfiniteScroll, useWindowSize } from '@vueuse/core'
 import type { InfiniTimelineItem, InfiniTimelineSupplier } from './it-types'
 
+/**
+ * Vue props accepted by InfiniTimeline component. 
+ * See README.md for detailed description.
+ */
 export interface Props {
   chunkSize?: number,
   dataArray?: InfiniTimelineItem[], 
@@ -51,6 +55,9 @@ export interface Props {
   titleDateFormat?: string,
 }
 
+/**
+ * Default setting for InfiniTimeline component if no overrides provided.
+ */
 const props = withDefaults(defineProps<Props>(), {
   chunkSize: 10,
   images: false,
@@ -61,10 +68,15 @@ const props = withDefaults(defineProps<Props>(), {
   titleDateFormat: 'YYYY-MM-DD'
 })
 
-// template ref to HTML container
+/**
+ * Template ref pointing to wrapping HTML container.
+ */
+// TODO update to Vue 3.5 syntax
 const timeline = ref(null)
 
-// data array
+/**
+ * Reactive array for data items displayed as timeline.
+ */
 const timelineData = ref([] as InfiniTimelineItem[])
 
 // prerequisities check
@@ -74,12 +86,13 @@ onBeforeMount(() => {
   } 
 })
 
-// init
+// init timeline upon first start
 onMounted(() => {
   resetTimeline()
 })
 
-// define VueUse infinite scroll
+// instance of VueUse infinite scroll
+// https://vueuse.org/core/useInfiniteScroll
 useInfiniteScroll(
   timeline,
   () => {
@@ -88,11 +101,21 @@ useInfiniteScroll(
   {
     distance: props.chunkSize,
     throttle: 100,
-    canLoadMore: (timeline) => moreDataAvailableInDataArray() || moreDataAvailableInDataSupplier()
+    canLoadMore: () => moreDataAvailableInDataArray() || moreDataAvailableInDataSupplier()
   }
 )
 
-function getMoreData (start: number, batch: number) {
+/**
+ * Implementation of VueUse infinite scroll supply function.
+ * The infinite scroll asks for more items automatically, when it detects the end of the content
+ * is approaching to viewport.
+ * 
+ * @param start begining index of the next batch (+1 to currently last item)
+ * @param batch number of items (default 10, can be overriden)
+ * 
+ * @returns array of InfiniTimelineItem or an empty array if there are no more available
+ */
+function getMoreData (start: number, batch: number): InfiniTimelineItem[] {
   logIfWanted('loading more data...')
   if (moreDataAvailableInDataArray()) {
     return props.dataArray!.slice(start, start + batch)
@@ -102,33 +125,78 @@ function getMoreData (start: number, batch: number) {
   return []
 }
 
-function moreDataAvailableInDataArray() {
+/**
+ * Checks, whether it is possible to load more items from the current data array.
+ * 
+ * @returns `true`, if there is at least 1 item that haven't been displayed yet
+ */
+function moreDataAvailableInDataArray(): boolean {
   return !!props.dataArray && timelineData.value.length < props.dataArray.length
 }
-function moreDataAvailableInDataSupplier() {
+
+/**
+ * Checks, whether it is possible to load more items from the current data supplier.
+ * 
+ * @returns `true`, if there is at least 1 item that haven't been displayed yet
+ */
+function moreDataAvailableInDataSupplier(): boolean {
   return !!props.dataSupplier && timelineData.value.length < props.dataSupplier.getTotal()
 }
 
-// only log messages when requested via a prop
+/**
+ * Logs given debug message, but only if logging is requested via a prop.
+ * It is advised to use `logging = true` only during development and turn this setting off
+ * for the production environment.
+ * 
+ * @param message message to be printed out with DEBUG level
+ */
 function logIfWanted(message: string) {
   if (props.logging) {
     console.debug(message)
   }
 }
 
-// controlling displaying left/right elements
-const isOdd = (i: number) => i % 2 === 1
-const isEven = (i: number) => !isOdd(i)
+/**
+ * Controls the left/right alignment of items inside the timeline.
+ * 
+ * @param ord order of current item in the list
+ * 
+ * @returns `true` for odd items (1., 3., 5., etc.)
+ */
+const isOdd = (ord: number) => ord % 2 === 1
 
-// when width < 640, only display items in one column
-// +50 if images are used
-const treshold = props.images ? 690 : 640;
+/**
+ * Controls the left/right alignment of items inside the timeline.
+ * 
+ * @param ord order of current item in the list
+ * 
+ * @returns `true` for even items (2., 4., 6., etc.)
+ */
+const isEven = (ord: number) => !isOdd(ord)
+
+
+// get the current screen width via VueUse helper
 const { width } = useWindowSize()
+
+/**
+ * Breakpoint betwen single and double column layout.
+ * When `width < 640`, only display items in one column.
+ * With`images = true` setting, the value must be increased to `width < 690`
+ * to avoid layout shifts.
+ */
+const treshold = props.images ? 690 : 640;
+
+/**
+ * Will be set to `true` on screens smaller than current `treshold`.
+ * This indicates single column layout.
+ */
 const narrowScreen = computed(() => Math.ceil(width.value) <= treshold)
 
-// format title as date if requested, otherwise return title as it is
-// settings from `item` are evaluated first
-// if nothing provided, component props are being used
+/**
+ * Format title as date if requested, otherwise return title as it is.
+ * Settings from given `item` are evaluated first.
+ * If nothing is provided, settings for the component will be used.
+ */
 function titleAsDateOrText(item: InfiniTimelineItem): string {
   if (item?.titleFormat === 'date' || props.titleFormat === 'date') {
     const format = item?.titleDateFormat || props.titleDateFormat
@@ -138,15 +206,25 @@ function titleAsDateOrText(item: InfiniTimelineItem): string {
   }
 }
 
-// returns image source from given item or default
+/**
+ * Returns image source from given `item` or component's default value
+ * (path to an image or `undefined`).
+ */
 function getImageSrc(item: InfiniTimelineItem): string | undefined {
   return item?.imageSrc ? item?.imageSrc : props.blankImage
 }
 
+/**
+ * Returns `true` if there is an image to be displayed for given `item`.
+ */
 function displayImage(item: InfiniTimelineItem): boolean {
   return !!getImageSrc(item)
 }
 
+/**
+ * Returns CSS class names for given row in the timeline.
+ * Item may be either left or right aligned and it may or may not contain an image.
+ */
 function getCSS(index: number): string {
   let cssClasses = ''
 
@@ -183,8 +261,10 @@ watch(() => props.dataSupplier?.changes, (newValue) => {
   }
 })
 
-// function to reset + load initial batch of data
-// also reset scrolling to top
+/**
+ * Function to reset + load initial batch of data.
+ * It also resets timeline scrolling to the top.
+ */
 function resetTimeline() {
   timelineData.value.length = 0
   timelineData.value.push(...getMoreData(0, props.chunkSize))

@@ -1,28 +1,65 @@
+/**
+ * Data item representing one record in the timeline.
+ */
 export type InfiniTimelineItem = {
-    // unique identifier used as the `key` attribute for inner `v-for` cycle
+    /**
+     * Unique identifier used as the `key` attribute for inner `v-for` cycle.
+     */
     id: number,
-    // text displayed in first row (usually meant to be a date of an event)       
+
+    /**
+     * Text displayed in the first row (usually meant to be a date of an event).
+     */   
     title: string,
-    // allows to pick between plain text and JS Date representation of the title (defaults to 'text')
+
+    /**
+     * Allows picking up between plain text and JS Date representation of the title (defaults to 'text').
+     */
     titleFormat?: 'text' | 'date',
-    // formatting options, if `titleFormat='date'` is selected (defaults to 'YYYY-MM-DD')
-    // see https://vueuse.org/shared/useDateFormat/ for allowed options
+
+    /**
+     * Formatting options, if `titleFormat='date'` is selected (defaults to 'YYYY-MM-DD').
+     * See https://vueuse.org/shared/useDateFormat/ for allowed options.
+    */
     titleDateFormat?: string,
-    // text displayed in second row (description of an event)
+
+    /**
+     * Text displayed in the second row (description of an event).
+     */
     content: string,
-    // potential "tooltip" text displayed upon mouse hovering over given data entry
+
+    /**
+     * Potential "tooltip" text displayed upon mouse hovering over given data entry.
+     */
     tooltip?: string
-    // potential image source to be displayed next to each item
+
+    /**
+     * Potential image source to be displayed next to each item.
+     */
     imageSrc?: string
 }
 
+/**
+ * Supplier allowing "lazy" loading of data from an external source.
+ */
 export interface InfiniTimelineSupplier {
-    // return the maximum number of items that are possible to be fetched
+    /**
+     * Returns the maximum number of items that can be fetched.
+     */ 
     getTotal(): number,
-    // fetch a next batch of items
+    
+    /**
+     * Fetches the next batch of items
+     * 
+     * @param startIndex begining index of the next batch (+1 to currently last item)
+     * @param chunkSize number of items (default 10, can be overriden)
+     */
     get(startIndex: number, chunkSize: number): InfiniTimelineItem[],
-    // set to `true` if you changed the data and want to reload-them dynamically
-    // internal watcher is monitoring this value and will trigger a reset
-    // NOTE: dataSupplier has to be declared reactive otherwise watcher will not trigger!
+
+    /**
+     * Set to `true` if you changed the data and want to reload-them dynamically.
+     * Internal watcher is monitoring this value and will trigger a reset.
+     * NOTE: The dataSupplier has to be declared reactive, otherwise the watcher will not trigger!
+     */
     changes?: boolean
 }
